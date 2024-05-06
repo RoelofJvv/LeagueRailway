@@ -1,11 +1,8 @@
-// Handle Riot API request
+/ Handle Riot API request
 const express = require('express');
 const axios = require('axios');
 const app = express();
 const helmet = require('helmet');
-const port = 3000;
-const apiKey = 'RGAPI-19840061-d645-4c33-a52c-a98a8c117b51';
-var version = 0;
 
 app.use(
   helmet.contentSecurityPolicy({
@@ -24,6 +21,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/riot-api', async (req, res) => {
+  const apiKey = process.env.RIOT_API_KEY; // Get the API key from environment variables
   const summonerName = req.query.summonerName;
   const tagLine = req.query.tagLine;
   const spinnerValue = req.query.spinnerValue;
@@ -209,6 +207,7 @@ res.json({
   }
 });
 
+const port = process.env.PORT || 3000; // Use the PORT environment variable if available, otherwise use 3000
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
