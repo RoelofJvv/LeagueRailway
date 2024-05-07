@@ -109,7 +109,7 @@
 
 
             // Send the summoner name to the server for processing
-            fetch(`/riot-api?summonerName=${summonerName}&tagLine${tagLine}&spinnerValue=${spinnerValue}&gameMode=${gameMode}`)
+            fetch(`/riot-api?summonerName=${summonerName}&tagLine=${tagLine}&spinnerValue=${spinnerValue}&gameMode=${gameMode}`)
                 .then(response => response.json())
                 .then(data => {
                     // The server will send back the rank and champion data
