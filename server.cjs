@@ -46,7 +46,7 @@ app.get('/riot-api', async (req, res) => {
     const summonerData = response.data;
 
     // Fetch ranked information using the summoner's ID
-    const rankedResponse = await axios.get(`https://euw1.api.riotgames.com/lol/league/v4/entries/by-summoner/${summonerData.id}`, {
+    const rankedResponse = await axios.get(`https://euw1.api.riotgames.com/lol/league/v4/entries/by-summoner/${summonerData.id}?api_key=RGAPI-19840061-d645-4c33-a52c-a98a8c117b51`, {
       headers: {
         'X-Riot-Token': apiKey
       }
