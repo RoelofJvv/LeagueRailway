@@ -3,6 +3,7 @@ const express = require('express');
 const axios = require('axios');
 const app = express();
 const helmet = require('helmet');
+const api = 'RGAPI-19840061-d645-4c33-a52c-a98a8c117b51';
 
 app.use(
   helmet.contentSecurityPolicy({
@@ -28,7 +29,7 @@ app.get('/riot-api', async (req, res) => {
   const gameMode = req.query.gameMode;
 
   try {
-    const response2 = await axios.get(`https://europe.api.riotgames.com/riot/account/v1/accounts/by-riot-id/${summonerName}/001`, {
+    const response2 = await axios.get(`https://europe.api.riotgames.com/riot/account/v1/accounts/by-riot-id/${summonerName}/001?api_key=${api}`, {
       headers: {
         'X-Riot-Token': apiKey
       }
@@ -37,7 +38,7 @@ app.get('/riot-api', async (req, res) => {
 
     const summonerData2 = response2.data;
 
-    const response = await axios.get(`https://euw1.api.riotgames.com/lol/summoner/v4/summoners/by-puuid/${summonerData2.puuid}`, {
+    const response = await axios.get(`https://euw1.api.riotgames.com/lol/summoner/v4/summoners/by-puuid/${summonerData2.puuid}?api_key=${api}`, {
       headers: {
         'X-Riot-Token': apiKey
       }
@@ -46,7 +47,7 @@ app.get('/riot-api', async (req, res) => {
     const summonerData = response.data;
 
     // Fetch ranked information using the summoner's ID
-    const rankedResponse = await axios.get(`https://euw1.api.riotgames.com/lol/league/v4/entries/by-summoner/${summonerData.id}?api_key=RGAPI-19840061-d645-4c33-a52c-a98a8c117b51`, {
+    const rankedResponse = await axios.get(`https://euw1.api.riotgames.com/lol/league/v4/entries/by-summoner/${summonerData.id}?api_key=${api}`, {
       headers: {
         'X-Riot-Token': apiKey
       }
@@ -62,13 +63,11 @@ app.get('/riot-api', async (req, res) => {
 
 
     // Fetch champion mastery data
-    const championMasteryResponse = await axios.get(`https://euw1.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-puuid/${summonerData.puuid}/top?count=3&`, {
+    const championMasteryResponse = await axios.get(`https://euw1.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-puuid/${summonerData.puuid}/top?count=3&api_key=${api}`, {
   headers: {
     'X-Riot-Token': apiKey
   }
 });
-
-
 
 const championList = championMasteryResponse.data;
 
@@ -118,7 +117,7 @@ const championInfo = await Promise.all(
 
 
 // Fetch the last 2 match IDs based on the determined match type
-const lastMatchesResponse = await axios.get(`https://europe.api.riotgames.com/lol/match/v5/matches/by-puuid/${summonerData.puuid}/ids?queue=${gameMode}&start=0&count=${spinnerValue}`, {
+const lastMatchesResponse = await axios.get(`https://europe.api.riotgames.com/lol/match/v5/matches/by-puuid/${summonerData.puuid}/ids?queue=${gameMode}&start=0&count=${spinnerValue}&api_key=${api}`, {
   headers: {
     'X-Riot-Token': apiKey
   }
@@ -131,7 +130,7 @@ const lastMatchesResponse = await axios.get(`https://europe.api.riotgames.com/lo
     const lastMatchesDetails = await Promise.all(
       lastMatchIds.map(async (matchId) => {
         try {
-          const matchDetailsResponse = await axios.get(`https://europe.api.riotgames.com/lol/match/v5/matches/${matchId}`, {
+          const matchDetailsResponse = await axios.get(`https://europe.api.riotgames.com/lol/match/v5/matches/${matchId}?api_key=${api}`, {
             headers: {
               'X-Riot-Token': apiKey
             }
