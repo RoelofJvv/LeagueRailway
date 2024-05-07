@@ -29,7 +29,7 @@ app.get('/riot-api', async (req, res) => {
   const gameMode = req.query.gameMode;
 
   try {
-    const response2 = await axios.get(`https://europe.api.riotgames.com/riot/account/v1/accounts/by-riot-id/${summonerName}/001?api_key=${api}`, {
+    const response2 = await axios.get(`https://europe.api.riotgames.com/riot/account/v1/accounts/by-riot-id/${summonerName}/${tagLine}?api_key=${api}`, {
       headers: {
         'X-Riot-Token': apiKey
       }
